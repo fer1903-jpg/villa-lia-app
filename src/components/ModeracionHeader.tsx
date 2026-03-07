@@ -1,89 +1,96 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { supabase } from "../lib/supabase";
+import { usePathname } from "next/navigation";
 
 type Props = {
-  username?: string;
-  role?: string;
-};
-
+  username?: string
+  role?: string
+}
 export default function ModeracionHeader({ username, role }: Props) {
-  const router = useRouter();
+  const pathname = usePathname();
 
-  async function salir() {
-    try {
-      await supabase.auth.signOut();
-    } catch {
-      // no bloquea navegación
-    }
-    router.push("/login");
-  }
+  const links = [
+    { href: "/mapa", label: "Mapa de incidentes" },
+    { href: "/moderacion", label: "Inicio" },
+    { href: "/moderacion/mapa", label: "Mapa operativo" },
+    { href: "/moderacion/zonas", label: "Zonas críticas" },
+    { href: "/moderacion/zonas/calor", label: "Mapa de calor" },
+  ];
 
   return (
     <header
       style={{
-        background: "#10212b",
+        background: "#0f5c7a",
         color: "#ffffff",
-        padding: "16px 20px",
-        boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
+        padding: "10px 20px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 16,
+        flexWrap: "wrap",
       }}
     >
       <div
         style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 16,
-          flexWrap: "wrap",
+          fontWeight: 800,
+          fontSize: 18,
+          whiteSpace: "nowrap",
         }}
       >
-        <div>
-          <div style={{ fontSize: 22, fontWeight: 800 }}>Moderación</div>
-          <div style={{ fontSize: 13, opacity: 0.85 }}>
-            {username ? `${username}${role ? ` · ${role}` : ""}` : "Panel de control"}
-          </div>
-        </div>
+        Seguridad Villa Lía
+      </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            flexWrap: "wrap",
-          }}
-        >
-          <Link
-            href="/moderacion"
-            style={{
-              color: "#ffffff",
-              textDecoration: "none",
-              fontWeight: 700,
-              fontSize: 14,
-            }}
-          >
-            Inicio
-          </Link>
+      <nav
+        style={{
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          flex: 1,
+        }}
+      >
+        {links.map((link) => {
+          const active = pathname === link.href;
 
-          <button
-            type="button"
-            onClick={salir}
-            style={{
-              background: "#c62828",
-              color: "#fff",
-              border: "none",
-              borderRadius: 10,
-              padding: "10px 14px",
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
-          >
-            Salir
-          </button>
-        </div>
+          const isMapaIncidentes = link.href === "/mapa";
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                color: "#ffffff",
+                textDecoration: "none",
+                fontWeight: 700,
+                padding: "8px 12px",
+                borderRadius: 8,
+                background: active
+                  ? "rgba(255,255,255,0.22)"
+                  : isMapaIncidentes
+                  ? "rgba(255,255,255,0.14)"
+                  : "transparent",
+                border: isMapaIncidentes
+                  ? "1px solid rgba(255,255,255,0.28)"
+                  : "1px solid transparent",
+              }}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div
+        style={{
+          fontSize: 13,
+          fontWeight: 600,
+          opacity: 0.92,
+          whiteSpace: "nowrap",
+        }}
+      >
+        {username ? `${username} (${role})` : ""}
       </div>
     </header>
   );
