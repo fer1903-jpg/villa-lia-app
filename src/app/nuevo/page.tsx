@@ -31,7 +31,7 @@ function getTipoStyles(tipo: TipoIncidente, selected: boolean) {
 
   return {
     padding: "12px 16px",
-    borderRadius: "10px",
+    borderRadius: 10,
     fontWeight: 700,
     fontSize: 15,
     cursor: "pointer",
@@ -56,6 +56,8 @@ export default function NuevoReportePage() {
   const [imagen, setImagen] = useState<File | null>(null);
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const tipos: TipoIncidente[] = ["Robo", "Accidente", "Iluminación", "Vandalismo", "Otro"];
 
   async function validarDireccionConMapa() {
     setMsg("");
@@ -193,10 +195,14 @@ export default function NuevoReportePage() {
     }
   }
 
-  const tipos: TipoIncidente[] = ["Robo", "Accidente", "Iluminación", "Vandalismo", "Otro"];
-
   return (
-    <main style={{ fontFamily: "Arial, sans-serif", background: "#f4f6f8", minHeight: "100vh" }}>
+    <main
+      style={{
+        fontFamily: "Arial, sans-serif",
+        background: "#f4f6f8",
+        minHeight: "100vh",
+      }}
+    >
       <AppHeader />
 
       <section style={{ padding: 20, maxWidth: 820, margin: "0 auto" }}>
@@ -212,9 +218,17 @@ export default function NuevoReportePage() {
             background: "#ffffff",
             borderRadius: 16,
             boxShadow: "0 10px 30px rgba(0,0,0,0.10)",
+            padding: 24,
           }}
         >
-          <label style={{ display: "block", fontWeight: 700, color: "#31424d", marginBottom: 10 }}>
+          <label
+            style={{
+              display: "block",
+              fontWeight: 700,
+              color: "#31424d",
+              marginBottom: 10,
+            }}
+          >
             Tipo de incidente
           </label>
 
@@ -231,22 +245,24 @@ export default function NuevoReportePage() {
                 key={t}
                 type="button"
                 onClick={() => setTipo(t)}
-                style={{
-                  padding: "12px 16px",
-                  borderRadius: 12,
-                  fontSize: 15,
-                  fontWeight: 700,
-                 
-                }}
+                style={getTipoStyles(t, tipo === t)}
               >
                 {t}
               </button>
             ))}
           </div>
 
-          <label style={{ display: "block", marginTop: 14, fontWeight: 700, color: "#31424d" }}>
+          <label
+            style={{
+              display: "block",
+              marginTop: 14,
+              fontWeight: 700,
+              color: "#31424d",
+            }}
+          >
             Descripción {tipo === "Otro" ? "(obligatoria)" : "(opcional)"}
           </label>
+
           <textarea
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
@@ -268,9 +284,17 @@ export default function NuevoReportePage() {
             }}
           />
 
-          <label style={{ display: "block", marginTop: 14, fontWeight: 700, color: "#31424d" }}>
+          <label
+            style={{
+              display: "block",
+              marginTop: 14,
+              fontWeight: 700,
+              color: "#31424d",
+            }}
+          >
             Dirección
           </label>
+
           <input
             value={direccion}
             onChange={(e) => setDireccion(e.target.value)}
@@ -329,16 +353,15 @@ export default function NuevoReportePage() {
           )}
 
           <div style={{ marginTop: 16 }}>
-            <MapPicker
-              lat={lat}
-              lng={lng}
-              tipo={tipo}
-              onPick={(a, o) => {
-                setLat(a);
-                setLng(o);
-                setMsg("Ubicación ajustada manualmente en el mapa.");
-              }}
-            />
+           <MapPicker
+  lat={lat}
+  lng={lng}
+  onPick={(a, o) => {
+    setLat(a);
+    setLng(o);
+    setMsg("Ubicación ajustada manualmente en el mapa.");
+  }}
+/>
           </div>
 
           <p style={{ marginTop: 10, color: "#31424d" }}>
