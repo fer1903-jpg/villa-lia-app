@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 export default function HomePage() {
@@ -5,173 +7,182 @@ export default function HomePage() {
     <main
       style={{
         minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 24,
+        background: "#f4f6f8",
         fontFamily: "Arial, sans-serif",
-        backgroundImage: "url('/images/villa-lia.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        position: "relative",
+        padding: 20,
       }}
     >
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          background: "rgba(0,0,0,0.52)",
-        }}
-      />
-
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          maxWidth: 420,
-          background: "rgba(255,255,255,0.96)",
-          borderRadius: 18,
-          padding: 26,
-          boxShadow: "0 16px 42px rgba(0,0,0,0.28)",
-          textAlign: "center",
+          maxWidth: 820,
+          margin: "0 auto",
         }}
       >
-        <h1
-          style={{
-            marginTop: 0,
-            marginBottom: 8,
-            fontSize: 36,
-            color: "#10212b",
-          }}
-        >
-          Seguridad
-        </h1>
-
-        <p
-          style={{
-            marginTop: 0,
-            marginBottom: 22,
-            color: "#4b5b66",
-            fontSize: 15,
-          }}
-        >
-          Villa Lía · San Antonio de Areco
-        </p>
-
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
+            background: "#ffffff",
+            borderRadius: 18,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.10)",
+            padding: 24,
           }}
         >
-          <Link
-            href="/nuevo"
+          <h1
             style={{
-              textDecoration: "none",
-              background: "#c62828",
-              color: "#fff",
-              padding: "16px 16px",
-              borderRadius: 12,
-              fontWeight: 800,
-              fontSize: 18,
-              letterSpacing: "0.4px",
-              boxShadow: "0 10px 22px rgba(198,40,40,0.32)",
+              margin: 0,
+              fontSize: 34,
+              color: "#10212b",
+              textAlign: "center",
             }}
           >
-            🚨 REPORTAR INCIDENTE
-          </Link>
+            Seguridad Villa Lía
+          </h1>
 
-          <Link
-            href="/login"
+          <p
             style={{
-              textDecoration: "none",
-              background: "#ffffff",
-              color: "#0f5c7a",
-              border: "1px solid #0f5c7a",
-              padding: "12px 14px",
-              borderRadius: 10,
-              fontWeight: 700,
-              fontSize: 14,
+              marginTop: 10,
+              marginBottom: 0,
+              textAlign: "center",
+              color: "#4b5b66",
+              fontSize: 16,
             }}
           >
-            Login moderadores / admin
-          </Link>
-        </div>
-
-        <div
-          style={{
-            marginTop: 22,
-            paddingTop: 16,
-            borderTop: "1px solid #e5eaee",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              fontWeight: 700,
-              color: "#31424d",
-              marginBottom: 10,
-              fontSize: 14,
-            }}
-          >
-            Teléfonos útiles
-          </div>
+            Plataforma de reportes e incidentes para vecinos y moderadores.
+          </p>
 
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
-              gap: 10,
+              flexWrap: "wrap",
+              gap: 12,
+              justifyContent: "center",
+              marginTop: 24,
             }}
           >
-            <a
-              href="tel:+542326403653"
+            <Link
+              href="/nuevo"
               style={{
-                display: "block",
+                display: "inline-block",
+                padding: "12px 18px",
+                borderRadius: 10,
+                background: "#0f5c7a",
+                color: "#ffffff",
                 textDecoration: "none",
-                background: "#d94a38",
-                color: "white",
-                padding: "12px",
-                borderRadius: "10px",
                 fontWeight: 700,
-                fontSize: 14,
               }}
             >
-              Bomberos Villa Lía
-            </a>
+              Reportar incidente
+            </Link>
 
-            <a
-              href="tel:911"
+            <Link
+              href="/mapa"
               style={{
-                display: "block",
+                display: "inline-block",
+                padding: "12px 18px",
+                borderRadius: 10,
+                background: "#ffffff",
+                color: "#0f5c7a",
                 textDecoration: "none",
-                background: "#1f3c88",
-                color: "white",
-                padding: "12px",
-                borderRadius: "10px",
                 fontWeight: 700,
-                fontSize: 14,
+                border: "2px solid #0f5c7a",
               }}
             >
-              Emergencias 911
-            </a>
+              Ver mapa
+            </Link>
+
+            <Link
+              href="/login"
+              style={{
+                display: "inline-block",
+                padding: "12px 18px",
+                borderRadius: 10,
+                background: "#10212b",
+                color: "#ffffff",
+                textDecoration: "none",
+                fontWeight: 700,
+              }}
+            >
+              Login moderadores
+            </Link>
           </div>
         </div>
-      </div>
-<div
-  style={{
-    marginTop: 18,
-    background: "#ffffff",
-    borderRadius: 16,
-    padding: 16,
-    boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
-    textAlign: "center",
-  }}
->
-  <h3 style={{ margin: "0 0 8px", color: "#10212b" }}>Descargar app Android</h3>
 
-  <p style={{ margin: "0 0 12px", color: "#4b5 ​:contentReference[oaicite:0]{index=0}​
+        <div
+          style={{
+            marginTop: 18,
+            background: "#ffffff",
+            borderRadius: 18,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.10)",
+            padding: 24,
+            textAlign: "center",
+          }}
+        >
+          <h2
+            style={{
+              marginTop: 0,
+              marginBottom: 8,
+              color: "#10212b",
+              fontSize: 28,
+            }}
+          >
+            Descargar app Android
+          </h2>
+
+          <p
+            style={{
+              marginTop: 0,
+              marginBottom: 16,
+              color: "#4b5b66",
+              fontSize: 15,
+            }}
+          >
+            Escaneá el QR desde tu teléfono Android o tocá el botón para descargar la app.
+          </p>
+
+          <img
+            src="/qr-app-android.png"
+            alt="QR descarga app Android"
+            style={{
+              width: 220,
+              maxWidth: "100%",
+              height: "auto",
+              borderRadius: 12,
+              background: "#ffffff",
+              padding: 8,
+              boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
+            }}
+          />
+
+          <div style={{ marginTop: 18 }}>
+            <a
+              href="https://peebgtdzdcqbvlqqnpqj.supabase.co/storage/v1/object/public/apps/SEGVL.apk"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "inline-block",
+                padding: "12px 18px",
+                borderRadius: 10,
+                background: "#0f5c7a",
+                color: "#ffffff",
+                textDecoration: "none",
+                fontWeight: 700,
+              }}
+            >
+              Descargar APK
+            </a>
+          </div>
+
+          <p
+            style={{
+              marginTop: 14,
+              marginBottom: 0,
+              color: "#6b7a84",
+              fontSize: 13,
+            }}
+          >
+            Archivo: SEGVL.apk
+          </p>
+        </div>
+      </div>
     </main>
   );
 }
