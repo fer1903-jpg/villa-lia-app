@@ -237,8 +237,7 @@ export default function NuevoReportePage() {
                   borderRadius: 12,
                   fontSize: 15,
                   fontWeight: 700,
-                  cursor: "pointer",
-                  ...getTipoStyles(t, tipo === t),
+                 
                 }}
               >
                 {t}
