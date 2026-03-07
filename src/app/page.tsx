@@ -167,54 +167,57 @@ export default function HomePage() {
 
       {/* QR APP ABAJO IZQUIERDA */}
 
-      <div
-        style={{
-          position: "absolute",
-          bottom: 20,
-          left: 20,
-          zIndex: 3,
-          background: "rgba(255,255,255,0.95)",
-          borderRadius: 12,
-          padding: 12,
-          boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
-          textAlign: "center",
-        }}
-      >
-        <div
-          style={{
-            fontSize: 12,
-            fontWeight: 700,
-            marginBottom: 6,
-            color: "#10212b",
-          }}
-        >
-          App Android
-        </div>
+<div
+  style={{
+    position: "absolute",
+    bottom: 24,
+    left: 24,
+    zIndex: 3,
+    textAlign: "center",
+  }}
+>
+  <div
+    style={{
+      color: "#ffffff",
+      fontWeight: 700,
+      fontSize: 14,
+      marginBottom: 8,
+      textShadow: "0 2px 8px rgba(0,0,0,0.6)",
+    }}
+  >
+    Descargar App
+  </div>
 
-        <img
-          src="/qr-app-android.png"
-          alt="QR descarga app"
-          style={{
-            width: 110,
-          }}
-        />
+  <img
+    src="/qr-app-android.png"
+    alt="QR descarga app"
+    style={{
+      width: 120,
+      display: "block",
+      marginBottom: 10,
+    }}
+  />
 
-        <a
-          href="https://peebgtdzdcqbvlqqnpqj.supabase.co/storage/v1/object/public/apps/SEGVL.apk"
-          target="_blank"
-          rel="noreferrer"
-          style={{
-            display: "block",
-            marginTop: 6,
-            fontSize: 11,
-            fontWeight: 700,
-            color: "#0f5c7a",
-            textDecoration: "none",
-          }}
-        >
-          Descargar
-        </a>
-      </div>
+  <a
+    href="https://peebgtdzdcqbvlqqnpqj.supabase.co/storage/v1/object/public/apps/SEGVL.apk"
+    target="_blank"
+    rel="noreferrer"
+    style={{
+      textDecoration: "none",
+      background: "#c62828",
+      color: "#fff",
+      padding: "12px 14px",
+      borderRadius: 12,
+      fontWeight: 800,
+      fontSize: 14,
+      letterSpacing: "0.3px",
+      boxShadow: "0 8px 20px rgba(198,40,40,0.35)",
+      display: "inline-block",
+    }}
+  >
+    📱 DESCARGAR APP
+  </a>
+</div>
     </main>
   );
 }
