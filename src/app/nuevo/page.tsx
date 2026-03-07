@@ -211,7 +211,6 @@ export default function NuevoReportePage() {
           style={{
             background: "#ffffff",
             borderRadius: 16,
-            padding: 24,
             boxShadow: "0 10px 30px rgba(0,0,0,0.10)",
           }}
         >
