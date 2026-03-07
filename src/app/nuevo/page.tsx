@@ -397,23 +397,40 @@ export default function NuevoReportePage() {
           )}
 
           <div style={{ display: "flex", gap: 10, marginTop: 18, flexWrap: "wrap" }}>
-            <button
-              type="button"
-              onClick={guardar}
-              disabled={loading}
-              style={{
-                padding: "12px 18px",
-                borderRadius: 10,
-                border: "none",
-                background: "#0f5c7a",
-                color: "#fff",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              {loading ? "Enviando..." : "Enviar incidente"}
-            </button>
-          </div>
+  <button
+    type="button"
+    onClick={guardar}
+    disabled={loading}
+    style={{
+      padding: "12px 18px",
+      borderRadius: 10,
+      border: "none",
+      background: "#0f5c7a",
+      color: "#fff",
+      fontWeight: 700,
+      cursor: "pointer",
+    }}
+  >
+    {loading ? "Enviando..." : "Enviar incidente"}
+  </button>
+
+  <button
+    type="button"
+    onClick={() => router.push("/")}
+    disabled={loading}
+    style={{
+      padding: "12px 18px",
+      borderRadius: 10,
+      border: "1px solid #0f5c7a",
+      background: "#fff",
+      color: "#0f5c7a",
+      fontWeight: 700,
+      cursor: "pointer",
+    }}
+  >
+    Cancelar
+  </button>
+</div>
 
           {msg && (
             <p style={{ marginTop: 14, whiteSpace: "pre-wrap", color: "#8a1f1f" }}>{msg}</p>

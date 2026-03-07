@@ -2,10 +2,10 @@
 
 import "leaflet/dist/leaflet.css";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { CircleMarker, MapContainer, Popup, TileLayer, useMap } from "react-leaflet";
+import L from "leaflet";
 import { supabase } from "../lib/supabase";
 import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from "../lib/mapConfig";
-import IncidentMarker from "./IncidentMarker";
 import FloatingReportButton from "./FloatingReportButton";
 
 type Reporte = {
@@ -59,6 +59,59 @@ function sortReportes(items: Reporte[]) {
     const db = b.created_at ? new Date(b.created_at).getTime() : 0;
     return db - da;
   });
+}
+
+function getColorByTipo(tipo: string | null) {
+  switch (tipo) {
+    case "Robo":
+      return "#ff3b30";
+    case "Accidente":
+      return "#9e9e9e";
+    case "Iluminación":
+      return "#64b5f6";
+    case "Vandalismo":
+      return "#ffd54f";
+    case "Otro":
+    default:
+      return "#8d6e63";
+  }
+}
+
+function FitBounds({ reportes }: { reportes: Reporte[] }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!reportes.length) return;
+
+    const points = reportes
+      .map((r) => ({
+        lat: Number(r.lat),
+        lng: Number(r.lng),
+      }))
+      .filter(
+        (p) =>
+          Number.isFinite(p.lat) &&
+          Number.isFinite(p.lng)
+      )
+      .map((p) => [p.lat, p.lng] as [number, number]);
+
+    if (!points.length) return;
+
+    if (points.length === 1) {
+      map.setView(points[0], 16, { animate: true });
+      return;
+    }
+
+    const bounds = L.latLngBounds(points);
+
+    map.fitBounds(bounds, {
+      padding: [40, 40],
+      maxZoom: 17,
+      animate: true,
+    });
+  }, [reportes, map]);
+
+  return null;
 }
 
 export default function MapView() {
@@ -165,7 +218,6 @@ export default function MapView() {
     };
   }, []);
 
-  // Fallback: refresco silencioso cada 60 segundos
   useEffect(() => {
     const interval = setInterval(() => {
       cargarReportes(true);
@@ -174,7 +226,6 @@ export default function MapView() {
     return () => clearInterval(interval);
   }, [cargarReportes]);
 
-  // Refresco al volver a la pestaña
   useEffect(() => {
     function onVisibilityChange() {
       if (document.visibilityState === "visible") {
@@ -294,18 +345,64 @@ export default function MapView() {
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer url={tileUrl} />
+          <FitBounds reportes={reportes} />
 
-          {reportes.map((reporte) => (
-            <IncidentMarker
-              key={reporte.id}
-              lat={reporte.lat}
-              lng={reporte.lng}
-              tipo={reporte.tipo}
-              descripcion={reporte.descripcion}
-              estado={reporte.estado}
-              showPopup={true}
-            />
-          ))}
+          {reportes.map((r) => {
+            const pendiente = r.estado === "pendiente";
+            const color = getColorByTipo(r.tipo);
+
+            return (
+              <CircleMarker
+                key={r.id}
+                center={[Number(r.lat), Number(r.lng)]}
+                radius={10}
+                pathOptions={{
+                  color,
+                  fillColor: color,
+                  fillOpacity: 0.85,
+                  weight: pendiente ? 3 : 2,
+                }}
+                className={pendiente ? "blink-incident" : ""}
+              >
+                <Popup>
+                  <div style={{ minWidth: 180 }}>
+                    <div style={{ fontWeight: 700, marginBottom: 4 }}>
+                      {r.tipo || "Incidente"}
+                    </div>
+                    <div style={{ fontSize: 13, color: "#44535d", marginBottom: 6 }}>
+                      Estado: {r.estado || "sin estado"}
+                    </div>
+
+                    {r.descripcion && (
+                      <div style={{ fontSize: 13, marginBottom: 6 }}>
+                        {r.descripcion}
+                      </div>
+                    )}
+
+                    {r.created_at && (
+                      <div style={{ fontSize: 12, color: "#6b7a84" }}>
+                        {new Date(r.created_at).toLocaleString("es-AR")}
+                      </div>
+                    )}
+
+                    {r.imagen_url && (
+                      <div style={{ marginTop: 8 }}>
+                        <img
+                          src={r.imagen_url}
+                          alt="Incidente"
+                          style={{
+                            width: "100%",
+                            borderRadius: 8,
+                            display: "block",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </Popup>
+              </CircleMarker>
+            );
+          })}
         </MapContainer>
 
         <FloatingReportButton />

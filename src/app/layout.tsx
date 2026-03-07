@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AuthGuard from "../components/AuthGuard";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Seguridad Villa Lía",
