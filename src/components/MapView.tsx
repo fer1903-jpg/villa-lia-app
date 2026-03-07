@@ -2,7 +2,13 @@
 
 import "leaflet/dist/leaflet.css";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CircleMarker, MapContainer, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  CircleMarker,
+  MapContainer,
+  Popup,
+  TileLayer,
+  useMap,
+} from "react-leaflet";
 import L from "leaflet";
 import { supabase } from "../lib/supabase";
 import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM } from "../lib/mapConfig";
@@ -31,10 +37,10 @@ function LegendItem({
       style={{
         display: "flex",
         alignItems: "center",
-        gap: 6,
+        gap: 8,
         fontSize: 13,
         color: "#10212b",
-        fontWeight: 600,
+        fontWeight: 700,
         whiteSpace: "nowrap",
       }}
     >
@@ -45,7 +51,7 @@ function LegendItem({
           borderRadius: "50%",
           background: color,
           display: "inline-block",
-          border: "1px solid rgba(0,0,0,0.15)",
+          border: "1px solid rgba(0,0,0,0.12)",
         }}
       />
       <span>{label}</span>
@@ -88,11 +94,7 @@ function FitBounds({ reportes }: { reportes: Reporte[] }) {
         lat: Number(r.lat),
         lng: Number(r.lng),
       }))
-      .filter(
-        (p) =>
-          Number.isFinite(p.lat) &&
-          Number.isFinite(p.lng)
-      )
+      .filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng))
       .map((p) => [p.lat, p.lng] as [number, number]);
 
     if (!points.length) return;
@@ -122,18 +124,14 @@ export default function MapView() {
   const [loading, setLoading] = useState(false);
 
   const cargarReportes = useCallback(async (silent = false) => {
-    if (!silent) {
-      setLoading(true);
-    }
+    if (!silent) setLoading(true);
 
     const { data, error } = await supabase
       .from("reportes")
       .select("id, tipo, descripcion, lat, lng, estado, created_at, imagen_url")
       .order("created_at", { ascending: false });
 
-    if (!silent) {
-      setLoading(false);
-    }
+    if (!silent) setLoading(false);
 
     if (error) {
       setMsg("Error al cargar reportes: " + error.message);
@@ -255,79 +253,79 @@ export default function MapView() {
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif" }}>
+    <div
+      style={{
+        fontFamily: "Arial, sans-serif",
+        background: "#f4f6f8",
+      }}
+    >
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           alignItems: "center",
           gap: 12,
-          marginBottom: 12,
+          marginBottom: 14,
           flexWrap: "wrap",
         }}
       >
-        <div
+        <span
           style={{
-            display: "flex",
-            gap: 10,
-            alignItems: "center",
-            flexWrap: "wrap",
+            background: live ? "#e8f5e9" : "#fff3e0",
+            color: live ? "#1b5e20" : "#a15c00",
+            borderRadius: 999,
+            padding: "10px 14px",
+            fontSize: 13,
+            fontWeight: 700,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.06)",
           }}
         >
+          {live ? "En vivo" : "Reconectando"}
+        </span>
+
+        <span
+          style={{
+            background: "#ffffff",
+            color: "#31424d",
+            borderRadius: 999,
+            padding: "10px 14px",
+            fontSize: 13,
+            fontWeight: 700,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.06)",
+          }}
+        >
+          Pendientes: {counts.pendientes}
+        </span>
+
+        <span
+          style={{
+            background: "#ffffff",
+            color: "#31424d",
+            borderRadius: 999,
+            padding: "10px 14px",
+            fontSize: 13,
+            fontWeight: 700,
+            boxShadow: "0 4px 14px rgba(0,0,0,0.06)",
+          }}
+        >
+          Resueltos: {counts.resueltos}
+        </span>
+
+        {loading && (
           <span
             style={{
-              background: live ? "#e8f5e9" : "#fff3e0",
-              color: live ? "#1b5e20" : "#a15c00",
+              background: "#eef3f7",
+              color: "#35505f",
               borderRadius: 999,
-              padding: "6px 10px",
+              padding: "10px 14px",
               fontSize: 13,
               fontWeight: 700,
+              boxShadow: "0 4px 14px rgba(0,0,0,0.06)",
             }}
           >
-            {live ? "En vivo" : "Reconectando"}
+            Cargando...
           </span>
-
-          <span
-            style={{
-              background: "#f4f6f8",
-              color: "#31424d",
-              borderRadius: 999,
-              padding: "6px 10px",
-              fontSize: 13,
-              fontWeight: 700,
-            }}
-          >
-            Pendientes: {counts.pendientes}
-          </span>
-
-          <span
-            style={{
-              background: "#f4f6f8",
-              color: "#31424d",
-              borderRadius: 999,
-              padding: "6px 10px",
-              fontSize: 13,
-              fontWeight: 700,
-            }}
-          >
-            Resueltos: {counts.resueltos}
-          </span>
-
-          {loading && (
-            <span
-              style={{
-                background: "#eef3f7",
-                color: "#35505f",
-                borderRadius: 999,
-                padding: "6px 10px",
-                fontSize: 13,
-                fontWeight: 700,
-              }}
-            >
-              Cargando...
-            </span>
-          )}
-        </div>
+        )}
       </div>
 
       <div
@@ -335,8 +333,10 @@ export default function MapView() {
           position: "relative",
           height: "70vh",
           width: "100%",
-          borderRadius: 14,
+          borderRadius: 22,
           overflow: "hidden",
+          background: "#ffffff",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
         }}
       >
         <MapContainer
@@ -348,59 +348,77 @@ export default function MapView() {
           <FitBounds reportes={reportes} />
 
           {reportes.map((r) => {
-            const pendiente = r.estado === "pendiente";
             const color = getColorByTipo(r.tipo);
 
             return (
-              <CircleMarker
-                key={r.id}
-                center={[Number(r.lat), Number(r.lng)]}
-                radius={10}
-                pathOptions={{
-                  color,
-                  fillColor: color,
-                  fillOpacity: 0.85,
-                  weight: pendiente ? 3 : 2,
-                }}
-                className={pendiente ? "blink-incident" : ""}
-              >
-                <Popup>
-                  <div style={{ minWidth: 180 }}>
-                    <div style={{ fontWeight: 700, marginBottom: 4 }}>
-                      {r.tipo || "Incidente"}
+              <>
+                <CircleMarker
+                  key={`${r.id}-outer`}
+                  center={[Number(r.lat), Number(r.lng)]}
+                  radius={18}
+                  pathOptions={{
+                    color,
+                    fillColor: color,
+                    fillOpacity: 0.08,
+                    weight: 3,
+                  }}
+                />
+                <CircleMarker
+                  key={r.id}
+                  center={[Number(r.lat), Number(r.lng)]}
+                  radius={8}
+                  pathOptions={{
+                    color,
+                    fillColor: color,
+                    fillOpacity: 0.9,
+                    weight: 2,
+                  }}
+                >
+                  <Popup>
+                    <div style={{ minWidth: 180 }}>
+                      <div style={{ fontWeight: 700, marginBottom: 4 }}>
+                        {r.tipo || "Incidente"}
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: 13,
+                          color: "#44535d",
+                          marginBottom: 6,
+                        }}
+                      >
+                        Estado: {r.estado || "sin estado"}
+                      </div>
+
+                      {r.descripcion && (
+                        <div style={{ fontSize: 13, marginBottom: 6 }}>
+                          {r.descripcion}
+                        </div>
+                      )}
+
+                      {r.created_at && (
+                        <div style={{ fontSize: 12, color: "#6b7a84" }}>
+                          {new Date(r.created_at).toLocaleString("es-AR")}
+                        </div>
+                      )}
+
+                      {r.imagen_url && (
+                        <div style={{ marginTop: 8 }}>
+                          <img
+                            src={r.imagen_url}
+                            alt="Incidente"
+                            style={{
+                              width: "100%",
+                              borderRadius: 8,
+                              display: "block",
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
-                    <div style={{ fontSize: 13, color: "#44535d", marginBottom: 6 }}>
-                      Estado: {r.estado || "sin estado"}
-                    </div>
-
-                    {r.descripcion && (
-                      <div style={{ fontSize: 13, marginBottom: 6 }}>
-                        {r.descripcion}
-                      </div>
-                    )}
-
-                    {r.created_at && (
-                      <div style={{ fontSize: 12, color: "#6b7a84" }}>
-                        {new Date(r.created_at).toLocaleString("es-AR")}
-                      </div>
-                    )}
-
-                    {r.imagen_url && (
-                      <div style={{ marginTop: 8 }}>
-                        <img
-                          src={r.imagen_url}
-                          alt="Incidente"
-                          style={{
-                            width: "100%",
-                            borderRadius: 8,
-                            display: "block",
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </Popup>
-              </CircleMarker>
+                  </Popup>
+                </CircleMarker>
+              </>
             );
           })}
         </MapContainer>
@@ -410,7 +428,7 @@ export default function MapView() {
 
       <div
         style={{
-          marginTop: 12,
+          marginTop: 14,
           display: "flex",
           justifyContent: "center",
         }}
@@ -418,13 +436,13 @@ export default function MapView() {
         <div
           style={{
             background: "#ffffff",
-            borderRadius: 12,
-            padding: "10px 16px",
-            boxShadow: "0 8px 18px rgba(0,0,0,0.10)",
+            borderRadius: 16,
+            padding: "12px 18px",
+            boxShadow: "0 8px 18px rgba(0,0,0,0.08)",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center",
-            gap: 16,
+            gap: 18,
             maxWidth: "100%",
           }}
         >
