@@ -159,6 +159,19 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+<div
+  style={{
+    marginTop: 18,
+    background: "#ffffff",
+    borderRadius: 16,
+    padding: 16,
+    boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+    textAlign: "center",
+  }}
+>
+  <h3 style={{ margin: "0 0 8px", color: "#10212b" }}>Descargar app Android</h3>
+
+  <p style={{ margin: "0 0 12px", color: "#4b5 ​:contentReference[oaicite:0]{index=0}​
     </main>
   );
 }
