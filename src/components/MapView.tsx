@@ -1,7 +1,7 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, Fragment } from "react";
 import {
   CircleMarker,
   MapContainer,
@@ -155,11 +155,7 @@ export default function MapView() {
       .channel("reportes-realtime")
       .on(
         "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "reportes",
-        },
+        { event: "INSERT", schema: "public", table: "reportes" },
         (payload) => {
           const nuevo = payload.new as Reporte;
 
@@ -172,28 +168,18 @@ export default function MapView() {
       )
       .on(
         "postgres_changes",
-        {
-          event: "UPDATE",
-          schema: "public",
-          table: "reportes",
-        },
+        { event: "UPDATE", schema: "public", table: "reportes" },
         (payload) => {
           const actualizado = payload.new as Reporte;
 
           setReportes((prev) =>
-            sortReportes(
-              prev.map((r) => (r.id === actualizado.id ? actualizado : r))
-            )
+            sortReportes(prev.map((r) => (r.id === actualizado.id ? actualizado : r)))
           );
         }
       )
       .on(
         "postgres_changes",
-        {
-          event: "DELETE",
-          schema: "public",
-          table: "reportes",
-        },
+        { event: "DELETE", schema: "public", table: "reportes" },
         (payload) => {
           const eliminado = payload.old as { id: string };
           setReportes((prev) => prev.filter((r) => r.id !== eliminado.id));
@@ -351,9 +337,8 @@ export default function MapView() {
             const color = getColorByTipo(r.tipo);
 
             return (
-              <>
+              <Fragment key={r.id}>
                 <CircleMarker
-                  key={`${r.id}-outer`}
                   center={[Number(r.lat), Number(r.lng)]}
                   radius={18}
                   pathOptions={{
@@ -364,7 +349,6 @@ export default function MapView() {
                   }}
                 />
                 <CircleMarker
-                  key={r.id}
                   center={[Number(r.lat), Number(r.lng)]}
                   radius={8}
                   pathOptions={{
@@ -418,7 +402,7 @@ export default function MapView() {
                     </div>
                   </Popup>
                 </CircleMarker>
-              </>
+              </Fragment>
             );
           })}
         </MapContainer>
