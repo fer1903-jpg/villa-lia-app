@@ -4,10 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 type Props = {
-  username: string | null;
-  role: string | null;
-};
-
+  username?: string
+  role?: string
+}
 export default function ModeracionHeader({ username, role }: Props) {
   const pathname = usePathname();
 
